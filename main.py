@@ -4,9 +4,13 @@ import player
 def main():
             pygame.init()   
             Clock = pygame.time.Clock()
+            
+            updateable = pygame.sprite.Group()
+            drawable = pygame.sprite.Group()
+
+            player.Player.containers = (updateable, drawable)
             dt = 0
             ship = player.Player(constants.SCREEN_WIDTH/2, constants.SCREEN_HEIGHT/2)
-            
            
             print("Starting Asteroids!")
             print(f"Screen width: {constants.SCREEN_WIDTH}",)
@@ -17,8 +21,11 @@ def main():
                 dt = Clock.tick(60)/1000  # dt is set each frame
                 screen.fill(black)
 
-                ship.__draw__(screen)
-
+                ship.update(dt)
+                for obj in drawable:
+                    obj.__draw__(screen)
+               
+                
                 pygame.display.flip()
                 
 
