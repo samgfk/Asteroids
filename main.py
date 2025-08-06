@@ -1,29 +1,40 @@
-import pygame
-import constants
-import player   
+from constants import *
+from player import Player 
+from asteroid import Asteroid  
+from AsteroidField import *
 def main():
             pygame.init()   
             Clock = pygame.time.Clock()
             
             updateable = pygame.sprite.Group()
             drawable = pygame.sprite.Group()
+            asteroids = pygame.sprite.Group()
+            
+            AsteroidField.containers = (updateable,)
+            Player.containers = (updateable, drawable)
+            Asteroid.containers = (asteroids, updateable, drawable)
+            
 
-            player.Player.containers = (updateable, drawable)
             dt = 0
-            ship = player.Player(constants.SCREEN_WIDTH/2, constants.SCREEN_HEIGHT/2)
-           
+            ship = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+            field = AsteroidField()
+            
+
             print("Starting Asteroids!")
-            print(f"Screen width: {constants.SCREEN_WIDTH}",)
-            print(f"Screen height: {constants.SCREEN_HEIGHT}")
-            screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+            print(f"Screen width: {SCREEN_WIDTH}",)
+            print(f"Screen height: {SCREEN_HEIGHT}")
+            screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
             black = "#000000"
             while True:
                 dt = Clock.tick(60)/1000  # dt is set each frame
                 screen.fill(black)
 
-                ship.update(dt)
+                updateable.update(dt)
+            
                 for obj in drawable:
-                    obj.__draw__(screen)
+                    obj.draw(screen)
+                
+                
                
                 
                 pygame.display.flip()
@@ -42,12 +53,5 @@ def main():
 
         
         
-
-'''
-for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-        return
-'''          
-          
 if __name__ == "__main__":
     main()
