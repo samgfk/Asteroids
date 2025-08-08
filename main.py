@@ -34,6 +34,10 @@ def main():
             black = "#000000"
 
             while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return
+                
                 dt = Clock.tick(60)/1000  # dt is set each frame
                 screen.fill(black)
 
